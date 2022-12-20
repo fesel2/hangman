@@ -1,0 +1,100 @@
+dog
+cat
+table
+chair
+desk
+computer
+pen
+pencil
+paper
+notebook
+car
+truck
+bus
+train
+plane
+boat
+ship
+bicycle
+motorcycle
+tree
+flower
+grass
+mountain
+river
+lake
+ocean
+beach
+island
+desert
+forest
+jungle
+farm
+house
+apartment
+hotel
+restaurant
+store
+market
+mall
+theater
+cinema
+museum
+library
+school
+college
+university
+hospital
+clinic
+pharmacy
+office
+factory
+warehouse
+garage
+workshop
+construction site
+mine
+oil rig
+power plant
+solar farm
+wind farm
+aircraft carrier
+submarine
+battleship
+cruiser
+destroyer
+aircraft
+helicopter
+rocket
+satellite
+telescope
+microscope
+telescope
+calculator
+printer
+copier
+scanner
+fax machine
+phone
+television
+radio
+music player
+camera
+video camera
+refrigerator
+stove
+microwave
+dishwasher
+washing machine
+dryer
+vacuum cleaner
+blender
+toaster
+coffee maker
+electric kettle
+oven
+grill
+barbecue
+smoker
+ice maker
+ice cream maker
