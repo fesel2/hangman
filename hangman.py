@@ -2,11 +2,6 @@ import random
 import pandas as pd
 import pygame
 from pygame.locals import (
-    RLEACCEL,
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
     K_ESCAPE,
     KEYDOWN,
     QUIT,
@@ -43,11 +38,59 @@ class Counter():
         self.level -= 1
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, let):
+    def __init__(self, let, font):
         self.letter = let
         self.surf = pygame.Surface((40,40))
         self.surf.fill((194,163,25))
         self.rect = self.surf.get_rect()
+        self.font = font
+        self.text = self.font.render(let, 1, (0,0,0))
+
+    def guess(self):
+        self.surf = pygame.Surface((100,60))
+
+
+
+    def click(self, event):
+        x,y = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if pygame.mouse.get_pressed()[0]:
+                if self.rect.collidepoint(x,y):
+                    self.guess()
+
+class Button2:
+
+    """Create a button, then blit the surface in the while loop"""
+
+    def __init__(self, text, pos, font, bg="black", feedback=""):
+        self.x, self.y = pos
+        self.letter = "e"
+        self.font = pygame.font.SysFont("Arial", font)
+        if feedback == "":
+            self.feedback = "text"
+        else:
+            self.feedback = feedback
+        self.change_text(text, bg)
+        
+    def change_text(self, text, bg="black"):
+        """Change the text whe you click"""
+        self.text = self.font.render(text, 1, pygame.Color("White"))
+        self.size = self.text.get_size()
+        self.surface = pygame.Surface(self.size)
+        self.surface.fill(bg)
+        self.surface.blit(self.text, (0, 0))
+        self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1])        
+        
+    def show(self):
+        screen.blit(button1.surface, (self.x, self.y))
+        
+    def click(self, event):
+        x, y = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if pygame.mouse.get_pressed()[0]:
+                if self.rect.collidepoint(x, y):
+                    # dataFrame operation: changes to True in visible column if letter in word                    
+                    df_word.loc[df_word["letter"]== self.letter, "visible"]= True
 
 # make the game
 pygame.init()
@@ -59,7 +102,8 @@ screen = pygame.display.set_mode([SCREENWIDTH, SCREENHEIGHT])
 
 #initial settings
 def init():
-    global new_word, font, hangman, alphabet_data, df_word, b1
+    random.seed(17)
+    global new_word, font, hangman, alphabet_data, df_word, button1
     new_word = Word()
     hangman = Counter()
     font = pygame.font.SysFont(None, 60)
@@ -69,8 +113,15 @@ def init():
         "letter": new_word.make_list(),
         "visible": [False for i in range(len(new_word.make_list()))]
         })
+    
     alphabet_data = pd.read_csv("alphabet.csv")
-    b1 = Button("a")
+    
+    button1 = Button2(
+    "e",
+    (500, 100),
+    font=30,
+    bg="navy",
+    feedback="You clicked me")
 
 
     
@@ -88,9 +139,14 @@ def main():
                     running = False
             elif event.type == QUIT:
                     running = False
-        
+            button1.click(event)
+         
+
         # fill background 
         screen.fill((0,0,0))
+
+        # render button
+        button1.show() 
 
         # render text
         i = 20
@@ -116,14 +172,14 @@ def main():
             else:
                 pass
             i += 40
+
         
-        # render counter
+        
+        # render counter aka hangman
         counter_img = font.render(str(hangman.level), True, (100,255,255))
         screen.blit(counter_img, (100, 350))
 
-        screen.blit(b1.surf, (500,200))
         
-    
 
         # refresh screen
         pygame.display.flip()
